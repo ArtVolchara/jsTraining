@@ -33,8 +33,7 @@ function replaceInObjectWithoutMutation(testObj, testStr) {
     return deepClone(testObj)
 }
 const newObj = replaceInObjectWithoutMutation(testObj, testStr);
-// console.log(newObj)
-///////////////////////////////////////////////////////////
+
 
 
 //Написать функцию, которая делает из объекто-подобной строки объект
@@ -63,14 +62,14 @@ function f(a) {
         var a = 10;
     }
 }
-f();
+// f();
 ///////////////////////////////////////////////////////////
 
 /*
 Написать функцию, принимающую на вход урл, по которому нужно сходить за данными для отображения и количество попыток.
 Если функция не смогла за переданное количество попыток получить данные, то необходимо вывести ошибку в консоль.
  */
-async function(url, attemps) {
+async function req(url, attemps) {
     try {
         for (let i = 0; i < attemps; i++) {
             let response = await fetch(url);
@@ -86,9 +85,9 @@ async function(url, attemps) {
     }
 }
 
-* Дан массив, в котором могут храниться любые типы данных.
-* Нужно реализовать функцию, которая разворачивает вложенные массивы в исходный массив.
-* Данные остальных типов должны остаться без изменений.
+// Дан массив, в котором могут храниться любые типы данных.
+// Нужно реализовать функцию, которая разворачивает вложенные массивы в исходный массив.
+// Данные остальных типов должны остаться без изменений.
 
 flatten([1, 'any [complex] string', null, function() {}, [1, 2, [3, '4'], 0], [], { a: 1 }]);
 // возвращает
@@ -124,11 +123,8 @@ const findSums = (array) => {
     }, {min: 0, max: 0 })
 };
 
-console.log(findSums([2, 1, 0, 2, 3]));
+// console.log(findSums([2, 1, 0, 2, 3]));
 
-const findSums = (array) => {
-    
-}
 
 // What will be in console?
 function main() {
@@ -140,10 +136,10 @@ function main() {
         var a = 4;
         return foo();
     }
-    return foo() + bar() // будет 15 + 15, т.к. foo обратится к своему окружению(где была создана) и найдёт а = 10
+    return foo() + bar()
 }
 
-console.log(main());
+// console.log(main());
 
 // Мы почта и мы так или иначе работаем с посылками: Принимаем и доставляем.
 // У нас есть различные сортировочные центры, которые обрабатывают посылки и развозят их до адресатов.
@@ -160,7 +156,7 @@ console.log(main());
 //         10: 0
 //     });
 
-export const transSort = (weight) => {
+const transSort = (weight) => {
     const transports = [
         5000, // Поезд
         2000, // Фура
@@ -180,17 +176,72 @@ export const transSort = (weight) => {
     }
     return result;
 };
-console.log(transSort(2300));
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-var t = {};
-function func(x) {
-    x = 1;
-    return x;
-}
-func(t);
-console.log(t);
+// console.log(transSort(2300));
 
-//Когда аргумент передаётся в функцию, переданное значения копируются в локальные переменную.
-// Обратите внимание: функция изменяет значение from, но это изменение не видно снаружи. 
-// Функция всегда получает только копию значения.
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const arr = [1,2,3,4,5,6,7,8,9];
+
+function binarySearch(arr, target) {
+    const halfIndex = Math.floor(arr.length / 2);
+    console.log('arr: ', arr)
+    if (arr[halfIndex] === target) {
+        console.log('Ответ:')
+        return arr[halfIndex]
+    } else if (arr.length === 1 && arr[halfIndex] !== target) {
+        console.log('nothing found')
+        return
+    } else if (arr[halfIndex] > target) {
+        return  binarySearch(arr.slice(0, halfIndex), target)
+    } else if (arr[halfIndex] < target) {
+        return  binarySearch(arr.slice(halfIndex,arr.length), target)
+    }
+}
+
+
+///Напишите собственную реализацию promise.all
+const p1 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 1000, "one");
+});
+const p2 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 2000, "two");
+});
+const p3 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 3000, "three");
+});
+const p4 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 4000, "four");
+});
+
+// const p5 = new Promise((resolve, reject) => {
+//     // Этот промис прервёт Promise.all
+//     reject("reject");
+// });
+
+const promises = [p1,p2,p3,p4]
+
+function promiseAll(promises) {
+    const resultArr = [];
+    return new Promise((resolve,reject) => {
+        promises.forEach((promise, index) => {
+            promise
+                .then((result) => {
+                    resultArr[index] = result
+                    if (index === promises.length - 1) {
+                        resolve(resultArr)
+                    }
+                    return result
+                })
+                .catch((e) => {
+                    reject(e)
+                })
+        })
+    })
+};
+
+promiseAll(promises)
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((e) => {
+        console.log(e)
+    })
